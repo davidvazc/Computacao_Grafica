@@ -41,7 +41,8 @@ static GLuint     cima[] = {8,11, 10,  9};
 //=================================================================== TEXTURAS
 
 //------------------------------------------------------------ Skybox
-GLUquadricObj*  bola = gluNewQuadric ( );
+GLUquadricObj*  sky  = gluNewQuadric ( );
+GLfloat         sizeSky  = 50;
 
 //------------------------------------------------------------ Texturas
 GLuint   texture[4];
@@ -94,6 +95,20 @@ static GLfloat arrayTexture[]={
 };
 void initTexturas()
 {
+	//----------------------------------------- SKY
+	glGenTextures(1, &texture[3]);
+	glBindTexture(GL_TEXTURE_2D, texture[3]);
+	glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
+	imag.LoadBmpFile("skyBox2.bmp");
+	glTexImage2D(GL_TEXTURE_2D, 0, 3, 
+	imag.GetNumCols(),
+		imag.GetNumRows(), 0, GL_RGB, GL_UNSIGNED_BYTE,
+		imag.ImageData());
+
 	//----------------------------------------- marmore dei
 	glGenTextures(1, &texture[2]);
 	glBindTexture(GL_TEXTURE_2D, texture[2]);
@@ -159,7 +174,6 @@ void inicializa(void)
 	glClearColor(BLACK);		//Apagar
 	glEnable(GL_DEPTH_TEST);	//Profundidade
 	glShadeModel(GL_SMOOTH);	//Interpolacao de cores
-
   initTexturas();
 	glEnable(GL_CULL_FACE);		//Faces visiveis
 	glCullFace(GL_BACK);		//Mostrar so as da frente
@@ -172,6 +186,20 @@ void inicializa(void)
     glEnableClientState(GL_COLOR_ARRAY);
 }
 
+
+void drawSkySphere(){	
+	glEnable(GL_TEXTURE_2D);
+	glBindTexture(GL_TEXTURE_2D,texture[3]);
+	glPushMatrix();		
+		glTranslatef(-15,0,-20);
+		glRotatef (       -90, 1, 0, 0);
+		gluQuadricDrawStyle ( sky, GLU_FILL   );
+		gluQuadricNormals   ( sky, GLU_SMOOTH );
+		gluQuadricTexture   ( sky, GL_TRUE    );
+		gluSphere ( sky, sizeSky*1, 150, 150);
+	glPopMatrix();
+	glDisable(GL_TEXTURE_2D);			
+};
 
 static void drawBox(GLfloat size, GLenum type)
 {
@@ -562,7 +590,7 @@ void drawScene(){
 }
 
 void display(void){
-
+	
 	//================================================================= APaga ecran/profundidade
 	 glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 
@@ -579,7 +607,11 @@ void display(void){
                         //desenhar objetos
   //drawChao();
   //drawEixos();
+  glDisable(GL_DEPTH_TEST);
+  drawSkySphere();
+  glEnable(GL_DEPTH_TEST);
   drawScene();
+  
   											// ESQUECER PoR AGORA
 	//================================================================= view port 2
   glViewport(0,0,600,400);
@@ -594,7 +626,7 @@ void display(void){
 
   //drawEixos();
 	drawScene();
-
+	drawSkySphere();
   //================================================================= viewport 3
   glViewport (0, 500, 800, 500);								// ESQUECER PoR AGORA
   glMatrixMode(GL_PROJECTION);
@@ -608,6 +640,7 @@ void display(void){
 
   //drawEixos();
   drawScene();
+  drawSkySphere();
   //================================================================= viewport 4
   glViewport (800, 500, 800, 500);								// ESQUECER PoR AGORA
   glMatrixMode(GL_PROJECTION);
@@ -621,7 +654,9 @@ void display(void){
 
   //drawEixos();
   drawScene();
+drawSkySphere();
 
+  
 	//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Actualizacao
 	glutSwapBuffers();
 
