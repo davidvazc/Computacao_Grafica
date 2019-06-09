@@ -454,24 +454,21 @@ void drawAllBigEscada(int x){
 
 void desenhaParedes(){
 	glPushMatrix();
-glEnable(GL_TEXTURE_2D);
-    glBindTexture(GL_TEXTURE_2D,texture[1]);
+  //DEI
   	glTranslatef(10,16,-18);
   	glScalef(1,35,54);
-
   	//glutCube(sizeEscadasNormais);
     drawParedeDei(sizeEscadasNormais, GL_QUADS);
   	glPopMatrix();
 
-
+//eletro
   	glPushMatrix();
-      glBindTexture(GL_TEXTURE_2D,texture[1]);
   	glTranslatef(-40,16,-18);
   	glScalef(1,35,54);
   	//glutCube(sizeEscadasNormais);
     drawParedeEletro(sizeEscadasNormais, GL_QUADS);
   	glPopMatrix();
-glDisable(GL_TEXTURE_2D);
+
 }
 
 void drawAllEscada(int x){
@@ -552,14 +549,22 @@ void escadas_normais(){
   drawAllEscadaEsquerda(nmr_escadas-1);
   glPopMatrix();
 }
+void drone(){
+
+  glTranslatef(obsPini[0],obsPini[1],obsPini[2]);
+  glutCube(1);
+
+}
 void drawScene(){
 
 
 
   escadas_normais();
   desenhaParedes();
+  drone();
 
 }
+
 
 void display(void){
 
@@ -595,29 +600,31 @@ void display(void){
   //drawEixos();
 	drawScene();
 
-  //================================================================= viewport 3
+  //================================================================= cam 1
   glViewport (0, 500, 800, 500);								// ESQUECER PoR AGORA
   glMatrixMode(GL_PROJECTION);
   glLoadIdentity();
-  gluPerspective(angPersp, (float)wScreen/hScreen, 0.1, 100.0);
+  gluPerspective(90, (float)wScreen/hScreen, 0.1, 100.0);
   glMatrixMode(GL_MODELVIEW);
   glLoadIdentity();
-  gluLookAt(-30+obsPini[0], obsPini[1],10+obsPini[2], -15+obsPfin[0], 0+obsPfin[1], 0+obsPfin[2], 0, 1, 0);
+  gluLookAt(8, 30, 10, -20,0, -20, 0, 1, 0);
                         // ESQUECER PoR AGORA
                         //desenhar objetos
 
   //drawEixos();
   drawScene();
-  //================================================================= viewport 4
+  //================================================================= cam 2
   glViewport (800, 500, 800, 500);								// ESQUECER PoR AGORA
   glMatrixMode(GL_PROJECTION);
   glLoadIdentity();
-  gluPerspective(angPersp, (float)wScreen/hScreen, 0.1, 100.0);
+  gluPerspective(90, (float)wScreen/hScreen, 0.1, 100.0);
   glMatrixMode(GL_MODELVIEW);
   glLoadIdentity();
-  gluLookAt(5+obsPini[0], obsPini[1],10+obsPini[2], -15+obsPfin[0], 0+obsPfin[1], 0+obsPfin[2], 0, 1, 0);
+  gluLookAt(-38,30 ,10,0 ,0, -20, 0, 1, 0);
                         // ESQUECER PoR AGORA
                         //desenhar objetos
+
+
 
   //drawEixos();
   drawScene();
