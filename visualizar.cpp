@@ -21,7 +21,7 @@
 
 //================================================================================
 //===========================================================Variaveis e constantes
-
+int cam_flag=0;
 //------------------------------------------------------------ Sistema Coordenadas + objectos
 GLint		wScreen=1600, hScreen=1000;		//.. janela (pixeis)
 GLfloat		xC=10.0, yC=10.0, zC=10.0;		//.. Mundo  (unidades mundo)
@@ -94,10 +94,10 @@ static GLfloat arrayTexture[]={
 };
 void initTexturas()
 {
-	//----------------------------------------- marmore escuro
-	glGenTextures(1, &texture[0]);
-	glBindTexture(GL_TEXTURE_2D, texture[0]);
-	imag.LoadBmpFile("clara.bmp");
+	//----------------------------------------- marmore dei
+	glGenTextures(1, &texture[2]);
+	glBindTexture(GL_TEXTURE_2D, texture[2]);
+	imag.LoadBmpFile("dei.bmp");
 	glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
@@ -111,8 +111,24 @@ void initTexturas()
 		imag.GetNumRows(), 0, GL_RGB, GL_UNSIGNED_BYTE,
 		imag.ImageData());
 
+  //----------------------------------------- marmore clara
+  glGenTextures(1, &texture[0]);
+  glBindTexture(GL_TEXTURE_2D, texture[0]);
+  imag.LoadBmpFile("clara.bmp");
+  glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL);
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+  //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+  //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 
-	//----------------------------------------- marmore claro
+  glTexImage2D(GL_TEXTURE_2D, 0, 3,
+    imag.GetNumCols(),
+    imag.GetNumRows(), 0, GL_RGB, GL_UNSIGNED_BYTE,
+    imag.ImageData());
+
+	//----------------------------------------- marmore escuro
 	glGenTextures(1, &texture[1]);
 	glBindTexture(GL_TEXTURE_2D, texture[1]);
 	imag.LoadBmpFile("escura.bmp");
@@ -125,6 +141,7 @@ void initTexturas()
 		imag.GetNumCols(),
 		imag.GetNumRows(), 0, GL_RGB, GL_UNSIGNED_BYTE,
 		imag.ImageData());
+
 
 
 }
@@ -190,6 +207,104 @@ static void drawBox(GLfloat size, GLenum type)
   for (i = 5; i >= 0; i--) {
     if (i%2==0)
       glBindTexture(GL_TEXTURE_2D,texture[0]);
+      else
+      glBindTexture(GL_TEXTURE_2D,texture[1]);
+
+    glPushMatrix();
+      glBegin(type);
+      glNormal3fv(&n[i][0]);
+      glTexCoord2f(0,0);   glVertex3fv(&v[faces[i][0]][0]);
+      glTexCoord2f(1,0);   glVertex3fv(&v[faces[i][1]][0]);
+      glTexCoord2f(1,1);   glVertex3fv(&v[faces[i][2]][0]);
+      glTexCoord2f(0,1);   glVertex3fv(&v[faces[i][3]][0]);
+      glEnd();
+    glPopMatrix();
+  }
+  glDisable(GL_TEXTURE_2D);
+}
+static void drawParedeEletro(GLfloat size, GLenum type)
+{
+  static GLfloat n[6][3] =
+  {
+    {-1.0, 0.0, 0.0},
+    {0.0, 1.0, 0.0},
+    {1.0, 0.0, 0.0},
+    {0.0, -1.0, 0.0},
+    {0.0, 0.0, 1.0},
+    {0.0, 0.0, -1.0}
+  };
+  static GLint faces[6][4] =
+  {
+    {0, 1, 2, 3},
+    {3, 2, 6, 7},
+    {7, 6, 5, 4},
+    {4, 5, 1, 0},
+    {5, 6, 2, 1},
+    {7, 4, 0, 3}
+  };
+  GLfloat v[8][3];
+  GLint i;
+
+  v[0][0] = v[1][0] = v[2][0] = v[3][0] = -size / 2;
+  v[4][0] = v[5][0] = v[6][0] = v[7][0] = size / 2;
+  v[0][1] = v[1][1] = v[4][1] = v[5][1] = -size / 2;
+  v[2][1] = v[3][1] = v[6][1] = v[7][1] = size / 2;
+  v[0][2] = v[3][2] = v[4][2] = v[7][2] = -size / 2;
+  v[1][2] = v[2][2] = v[5][2] = v[6][2] = size / 2;
+  glEnable(GL_TEXTURE_2D);
+
+  for (i = 5; i >= 0; i--) {
+    if (i%2==0)
+      glBindTexture(GL_TEXTURE_2D,texture[0]);
+      else
+      glBindTexture(GL_TEXTURE_2D,texture[1]);
+
+    glPushMatrix();
+      glBegin(type);
+      glNormal3fv(&n[i][0]);
+      glTexCoord2f(0,0);   glVertex3fv(&v[faces[i][0]][0]);
+      glTexCoord2f(1,0);   glVertex3fv(&v[faces[i][1]][0]);
+      glTexCoord2f(1,1);   glVertex3fv(&v[faces[i][2]][0]);
+      glTexCoord2f(0,1);   glVertex3fv(&v[faces[i][3]][0]);
+      glEnd();
+    glPopMatrix();
+  }
+  glDisable(GL_TEXTURE_2D);
+}
+static void drawParedeDei(GLfloat size, GLenum type)
+{
+  static GLfloat n[6][3] =
+  {
+    {-1.0, 0.0, 0.0},
+    {0.0, 1.0, 0.0},
+    {1.0, 0.0, 0.0},
+    {0.0, -1.0, 0.0},
+    {0.0, 0.0, 1.0},
+    {0.0, 0.0, -1.0}
+  };
+  static GLint faces[6][4] =
+  {
+    {0, 1, 2, 3},
+    {3, 2, 6, 7},
+    {7, 6, 5, 4},
+    {4, 5, 1, 0},
+    {5, 6, 2, 1},
+    {7, 4, 0, 3}
+  };
+  GLfloat v[8][3];
+  GLint i;
+
+  v[0][0] = v[1][0] = v[2][0] = v[3][0] = -size / 2;
+  v[4][0] = v[5][0] = v[6][0] = v[7][0] = size / 2;
+  v[0][1] = v[1][1] = v[4][1] = v[5][1] = -size / 2;
+  v[2][1] = v[3][1] = v[6][1] = v[7][1] = size / 2;
+  v[0][2] = v[3][2] = v[4][2] = v[7][2] = -size / 2;
+  v[1][2] = v[2][2] = v[5][2] = v[6][2] = size / 2;
+  glEnable(GL_TEXTURE_2D);
+
+  for (i = 5; i >= 0; i--) {
+    if (i%2==0)
+      glBindTexture(GL_TEXTURE_2D,texture[2]);
       else
       glBindTexture(GL_TEXTURE_2D,texture[1]);
 
@@ -339,16 +454,24 @@ void drawAllBigEscada(int x){
 
 void desenhaParedes(){
 	glPushMatrix();
+glEnable(GL_TEXTURE_2D);
+    glBindTexture(GL_TEXTURE_2D,texture[1]);
   	glTranslatef(10,16,-18);
   	glScalef(1,35,54);
-  	glutCube(sizeEscadasNormais);
+
+  	//glutCube(sizeEscadasNormais);
+    drawParedeDei(sizeEscadasNormais, GL_QUADS);
   	glPopMatrix();
 
+
   	glPushMatrix();
+      glBindTexture(GL_TEXTURE_2D,texture[1]);
   	glTranslatef(-40,16,-18);
   	glScalef(1,35,54);
-  	glutCube(sizeEscadasNormais);
+  	//glutCube(sizeEscadasNormais);
+    drawParedeEletro(sizeEscadasNormais, GL_QUADS);
   	glPopMatrix();
+glDisable(GL_TEXTURE_2D);
 }
 
 void drawAllEscada(int x){
@@ -547,7 +670,16 @@ void keyboard(unsigned char key, int x, int y){
 		obsPfin[2] =obsPini[2]+rVisao*cos(ayVisao)*PI;
 		obsPfin[1] =obsPini[1]-rVisao*sin(ayVisao)*PI;
 	break;
-
+  case 'i':
+  case 'I':
+    obsPini[0]++;
+    obsPini[0]++;
+  break;
+  case 'k':
+  case 'K':
+    obsPini[0]--;
+    obsPini[0]--;
+  break;
 
 
 
