@@ -48,6 +48,35 @@ GLfloat         sizeSky  = 50;
 GLuint   texture[4];
 RgbImage imag;
 
+//luzes
+GLint   noite=1;
+GLfloat luzGlobalCor[4]={1.0,1.0,1.0,1.0};
+
+GLint   ligaLuz=1;
+
+
+
+GLfloat materialColorObjetos[] = {1.0f, 1.0f, 1.0f, 1.0f};
+void initLights(void){
+    //ÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖ Ambiente
+    glLightModelfv(GL_LIGHT_MODEL_AMBIENT, luzGlobalCor);
+
+    //ÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖ Tecto
+    GLfloat localCor[4] ={0.6,0.6,0,1.0};
+    GLfloat localCorDif[4] ={ 1, 1, 1, 1.0};
+    GLfloat localPos[4] ={-15, 30.0, 0, 1.0};//posica luz
+    GLfloat localAttCon =1.0;
+    GLfloat localAttLin =0.05;
+    GLfloat localAttQua =0.0;
+
+    glLightfv(GL_LIGHT0, GL_POSITION,      localPos );
+    glLightfv(GL_LIGHT0, GL_AMBIENT,       localCor );
+    glLightfv(GL_LIGHT0, GL_DIFFUSE,       localCorDif );
+    glLightf (GL_LIGHT0, GL_CONSTANT_ATTENUATION, localAttCon);
+    glLightf (GL_LIGHT0, GL_LINEAR_ATTENUATION,   localAttLin) ;
+    glLightf (GL_LIGHT0, GL_QUADRATIC_ATTENUATION,localAttQua) ;
+
+}
 
 GLfloat tam=2.0;
 static GLfloat vertices[]={
@@ -98,65 +127,59 @@ void initTexturas()
 	//----------------------------------------- SKY
 	glGenTextures(1, &texture[3]);
 	glBindTexture(GL_TEXTURE_2D, texture[3]);
+  imag.LoadBmpFile("skyBox2.bmp");
 	glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
-	imag.LoadBmpFile("skyBox2.bmp");
+
 	glTexImage2D(GL_TEXTURE_2D, 0, 3,
 	imag.GetNumCols(),
 		imag.GetNumRows(), 0, GL_RGB, GL_UNSIGNED_BYTE,
 		imag.ImageData());
 
-	//----------------------------------------- marmore dei
-	glGenTextures(1, &texture[2]);
-	glBindTexture(GL_TEXTURE_2D, texture[2]);
-	imag.LoadBmpFile("dei.bmp");
-	glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-	//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+	//----------------------------------------- CLARA
+     glGenTextures(1, &texture[0]);
+     glBindTexture(GL_TEXTURE_2D, texture[0]);
+     glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
+     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
+     imag.LoadBmpFile("clara.bmp");
+     glTexImage2D(GL_TEXTURE_2D, 0, 3,
+                  imag.GetNumCols(),
+                  imag.GetNumRows(), 0, GL_RGB, GL_UNSIGNED_BYTE,
+                  imag.ImageData());
+     // textura balde
 
-	glTexImage2D(GL_TEXTURE_2D, 0, 3,
-		imag.GetNumCols(),
-		imag.GetNumRows(), 0, GL_RGB, GL_UNSIGNED_BYTE,
-		imag.ImageData());
+     glGenTextures(1, &texture[1]);
+     glBindTexture(GL_TEXTURE_2D, texture[1]);
+     glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+     imag.LoadBmpFile("escura.bmp");
+     glTexImage2D(GL_TEXTURE_2D, 0, 3,
+                  imag.GetNumCols(),
+                  imag.GetNumRows(), 0, GL_RGB, GL_UNSIGNED_BYTE,
+                  imag.ImageData());
 
-  //----------------------------------------- marmore clara
-  glGenTextures(1, &texture[0]);
-  glBindTexture(GL_TEXTURE_2D, texture[0]);
-  imag.LoadBmpFile("clara.bmp");
-  glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL);
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-  //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-  //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-
-  glTexImage2D(GL_TEXTURE_2D, 0, 3,
-    imag.GetNumCols(),
-    imag.GetNumRows(), 0, GL_RGB, GL_UNSIGNED_BYTE,
-    imag.ImageData());
-
-	//----------------------------------------- marmore escuro
-	glGenTextures(1, &texture[1]);
-	glBindTexture(GL_TEXTURE_2D, texture[1]);
-	imag.LoadBmpFile("escura.bmp");
-	glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
-	glTexImage2D(GL_TEXTURE_2D, 0, 3,
-		imag.GetNumCols(),
-		imag.GetNumRows(), 0, GL_RGB, GL_UNSIGNED_BYTE,
-		imag.ImageData());
-
+     //----------------------------------------- textura gelo
+     glGenTextures(1, &texture[2]);
+     glBindTexture(GL_TEXTURE_2D, texture[2]);
+     glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+     imag.LoadBmpFile("dei.bmp");
+     glTexImage2D(GL_TEXTURE_2D, 0, 3,
+                  imag.GetNumCols(),
+                  imag.GetNumRows(), 0, GL_RGB, GL_UNSIGNED_BYTE,
+                  imag.ImageData());
 
 
 }
@@ -173,17 +196,31 @@ void inicializa(void)
 {
 	glClearColor(BLACK);		//Apagar
 	glEnable(GL_DEPTH_TEST);	//Profundidade
-	glShadeModel(GL_SMOOTH);	//Interpolacao de cores
-  initTexturas();
-	glEnable(GL_CULL_FACE);		//Faces visiveis
-	glCullFace(GL_BACK);		//Mostrar so as da frente
+	//glShadeModel(GL_SMOOTH);	//Interpolacao de cores
+  glEnable(GL_BLEND);
+  glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
+//  glColorMaterial ( GL_FRONT_AND_BACK, GL_EMISSION ) ;
+  // glEnable ( GL_COLOR_MATERIAL ) ;
+   //glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
+
+  initTexturas();
+  glEnable(GL_TEXTURE_2D);
+	//glEnable(GL_CULL_FACE);		//Faces visiveis
+	//glCullFace(GL_BACK);		//Mostrar so as da frente
+/*
 	glVertexPointer(3, GL_FLOAT, 0, vertices); //Vertex arrays
 	glEnableClientState(GL_VERTEX_ARRAY);
 	glNormalPointer(GL_FLOAT, 0, normais);
     glEnableClientState(GL_NORMAL_ARRAY);
 	glColorPointer(3, GL_FLOAT, 0, cores);
     glEnableClientState(GL_COLOR_ARRAY);
+    */
+
+    initLights();
+    glEnable(GL_LIGHTING);
+    glEnable(GL_LIGHT0);
+
 }
 
 
@@ -578,13 +615,19 @@ void escadas_normais(){
   glPopMatrix();
 }
 void drone(){
-
+  glPushMatrix();
   glTranslatef(obsPini[0],obsPini[1],obsPini[2]);
+
+  glEnable(GL_CULL_FACE);		//Faces visiveis
   glutCube(1);
+  glCullFace(GL_BACK);		//Mostrar so as da frente
+  glDisable(GL_CULL_FACE);
 
+  glPopMatrix();
 }
-void drawScene(){
 
+void drawScene(){
+  //glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, materialColorObjetos);
 
 
   escadas_normais();
@@ -595,6 +638,10 @@ void drawScene(){
 
 
 void display(void){
+  if (ligaLuz)
+    glEnable(GL_LIGHT0);
+  else
+    glDisable(GL_LIGHT0);
 
 	//================================================================= APaga ecran/profundidade
 	 glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
@@ -684,6 +731,22 @@ void keyboard(unsigned char key, int x, int y){
 
 
 	switch (key) {
+  case 'n':
+  case 'N':
+
+    noite=!noite;
+    if (noite)
+    { luzGlobalCor[0]=1.0;   luzGlobalCor[1]=1.0;   luzGlobalCor[2]=1.0; }
+    else
+    { luzGlobalCor[0]=0.4;   luzGlobalCor[1]=0.4;   luzGlobalCor[2]=0.4; }
+    glLightModelfv(GL_LIGHT_MODEL_AMBIENT, luzGlobalCor);
+    glutPostRedisplay();
+    break;
+  case 'l':
+  case 'L':
+    ligaLuz=!ligaLuz;
+    glutPostRedisplay();
+    break;
 	case 'f':
 	case 'F':
 		frenteVisivel=!frenteVisivel;
