@@ -45,7 +45,7 @@ GLUquadricObj*  sky  = gluNewQuadric ( );
 GLfloat         sizeSky  = 50;
 
 //------------------------------------------------------------ Texturas
-GLuint   texture[4];
+GLuint   texture[10];
 RgbImage imag;
 
 //luzes
@@ -152,7 +152,7 @@ void initTexturas()
                   imag.GetNumCols(),
                   imag.GetNumRows(), 0, GL_RGB, GL_UNSIGNED_BYTE,
                   imag.ImageData());
-     // textura balde
+     // textura partes de cima
 
      glGenTextures(1, &texture[1]);
      glBindTexture(GL_TEXTURE_2D, texture[1]);
@@ -167,7 +167,7 @@ void initTexturas()
                   imag.GetNumRows(), 0, GL_RGB, GL_UNSIGNED_BYTE,
                   imag.ImageData());
 
-     //----------------------------------------- textura gelo
+     //----------------------------------------- textura paredes departamentos
      glGenTextures(1, &texture[2]);
      glBindTexture(GL_TEXTURE_2D, texture[2]);
      glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
@@ -175,11 +175,13 @@ void initTexturas()
      glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
      glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
      glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-     imag.LoadBmpFile("dei.bmp");
+     imag.LoadBmpFile("DEI_PORTA.bmp");
      glTexImage2D(GL_TEXTURE_2D, 0, 3,
                   imag.GetNumCols(),
                   imag.GetNumRows(), 0, GL_RGB, GL_UNSIGNED_BYTE,
                   imag.ImageData());
+
+
 
 
 }
@@ -196,9 +198,7 @@ void inicializa(void)
 {
 	glClearColor(BLACK);		//Apagar
 	glEnable(GL_DEPTH_TEST);	//Profundidade
-	//glShadeModel(GL_SMOOTH);	//Interpolacao de cores
-  glEnable(GL_BLEND);
-  glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	glShadeModel(GL_SMOOTH);	//Interpolacao de cores
 
 //  glColorMaterial ( GL_FRONT_AND_BACK, GL_EMISSION ) ;
   // glEnable ( GL_COLOR_MATERIAL ) ;
@@ -320,17 +320,17 @@ static void drawParedeEletro(GLfloat size, GLenum type)
 
   for (i = 5; i >= 0; i--) {
     if (i%2==0)
-      glBindTexture(GL_TEXTURE_2D,texture[0]);
+      glBindTexture(GL_TEXTURE_2D,texture[2]);
       else
       glBindTexture(GL_TEXTURE_2D,texture[1]);
 
     glPushMatrix();
       glBegin(type);
       glNormal3fv(&n[i][0]);
-      glTexCoord2f(0,0);   glVertex3fv(&v[faces[i][0]][0]);
-      glTexCoord2f(1,0);   glVertex3fv(&v[faces[i][1]][0]);
-      glTexCoord2f(1,1);   glVertex3fv(&v[faces[i][2]][0]);
-      glTexCoord2f(0,1);   glVertex3fv(&v[faces[i][3]][0]);
+      glTexCoord2f(0,0);   glVertex3fv(&v[faces[i][3]][0]);
+      glTexCoord2f(1,0);   glVertex3fv(&v[faces[i][2]][0]);
+      glTexCoord2f(1,1);   glVertex3fv(&v[faces[i][1]][0]);
+      glTexCoord2f(0,1);   glVertex3fv(&v[faces[i][0]][0]);
       glEnd();
     glPopMatrix();
   }
