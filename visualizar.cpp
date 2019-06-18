@@ -16,11 +16,33 @@
 #define GRAY2    0.9, 0.9, 0.9, 1.0
 #define PRETO    0.0, 0.0, 0.0, 1.0
 
+#define MAX_PARTICLES 10000
+
 #include "RgbImage.h"
 #define   PI 3.14159
 
 //================================================================================
 //===========================================================Variaveis e constantes
+
+int loop;
+float slowdown = 0.95;
+float speed = 0.0;
+bool isRaining;
+
+typedef struct
+{
+    float   size;
+    float   life;
+    float   fade;
+    float   r,g,b;
+    float   x,y,z;
+    float   vel;
+    float   gravity;
+}Particle;
+
+Particle particles[MAX_PARTICLES];
+
+
 int cam_flag=0;
 //------------------------------------------------------------ Sistema Coordenadas + objectos
 GLint		wScreen=1600, hScreen=1000;		//.. janela (pixeis)
@@ -127,7 +149,7 @@ void initTexturas()
 	//----------------------------------------- SKY
 	glGenTextures(1, &texture[3]);
 	glBindTexture(GL_TEXTURE_2D, texture[3]);
-  imag.LoadBmpFile("skyBox2.bmp");
+  imag.LoadBmpFile("Sky.bmp");
 	glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
@@ -186,7 +208,67 @@ void initTexturas()
 
 }
 
+void init_particles(int i)
+{
+    particles[i].life = 1.0f;
+    particles[i].fade = float(rand()%100)/1000.0f+0.003f;
+    
+    // Posição
+    
+    particles[i].x = (float) -(xC * 4 ) + (rand() % 60) ;
+    particles[i].y = 60.0f;
+    particles[i].z = (float) -(xC * 4 ) + (rand() % 60) ;
+    
+    particles[i].r = 1.0f;
+    particles[i].g = 1.0f;
+    particles[i].b = 1.0f;
+    
+    particles[i].vel = speed;
+    particles[i].gravity = -0.8;//-0.8;
+}
 
+void draw_rain() {
+    float x, y, z;
+    for (loop = 0; loop < MAX_PARTICLES; loop=loop+1) {
+        if (particles[loop].life > 0.0f) {
+            x = particles[loop].x;
+            y = particles[loop].y;
+            z = particles[loop].z;
+            
+            
+            if ( (x > -(0.1) and x < (0.1) ) and ((z > -(0.1) and z < (0.1) )) )
+            {
+                init_particles(loop);
+                continue;
+            }
+        
+            
+            
+            
+            // Draw particles
+            glLineWidth(1);
+            glColor4f(1.0,1.0,1.0,1.0);
+            glBegin(GL_LINES);
+            glVertex3f(x, y, z);
+            glVertex3f(x, y+0.3, z);
+            glEnd();
+            
+            // Velocidade de descida com gravidade
+            particles[loop].y += particles[loop].vel / (slowdown*100);
+            particles[loop].vel += particles[loop].gravity;
+            // Fade
+            particles[loop].life -= particles[loop].fade;
+            
+            if (particles[loop].y <= -0) {
+                particles[loop].life = -1.0;
+            }
+            //Revive
+            if (particles[loop].life < 0.0) {
+                init_particles(loop);
+            }
+        }
+    }
+}
 
 
 
@@ -218,8 +300,16 @@ void inicializa(void)
     */
 
     initLights();
+
+    for (loop = 0; loop < MAX_PARTICLES; loop++) {
+        init_particles(loop);
+    }
+
     glEnable(GL_LIGHTING);
     glEnable(GL_LIGHT0);
+
+
+
 
 }
 
@@ -629,15 +719,17 @@ void drone(){
 void drawScene(){
   //glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, materialColorObjetos);
 
-
+  
   escadas_normais();
   desenhaParedes();
+  draw_rain();
   drone();
 
 }
 
 
 void display(void){
+	draw_rain();
   if (ligaLuz)
     glEnable(GL_LIGHT0);
   else
@@ -712,8 +804,11 @@ void display(void){
 
 
   //drawEixos();
+  
   drawScene();
+  
 drawSkySphere();
+
 
 
 	//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Actualizacao
@@ -829,6 +924,13 @@ void teclasNotAscii(int key, int x, int y){
 
 }
 
+GLvoid resize(GLsizei width, GLsizei height)
+{
+    wScreen=width;
+    hScreen=height;
+    draw_rain();
+}
+
 
 //======================================================= MAIN
 //======================================================= MAIN
@@ -842,10 +944,11 @@ int main(int argc, char** argv){
 
 	inicializa();
 
+
 	glutSpecialFunc(teclasNotAscii);
 	glutDisplayFunc(display);
+	glutReshapeFunc(resize);
 	glutKeyboardFunc(keyboard);
-
 	glutMainLoop();
 
 	return 0;
