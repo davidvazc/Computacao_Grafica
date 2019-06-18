@@ -344,6 +344,7 @@ void inicializa(void)
   glEnable(GL_LIGHT0);
 
   glEnable(GL_LIGHT1);
+}
 
 void drawSkySphere()
 {
