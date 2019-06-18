@@ -212,7 +212,7 @@ void initTexturas()
   //----------------------------------------- SKY
   glGenTextures(1, &texture[3]);
   glBindTexture(GL_TEXTURE_2D, texture[3]);
-  imag.LoadBmpFile("Sky.bmp");
+  imag.LoadBmpFile("a.bmp");
   glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL);
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
@@ -379,7 +379,7 @@ void inicializa(void)
 
   glEnable(GL_LIGHTING);
   glEnable(GL_LIGHT0);
-  //glEnable(GL_LIGHT1);
+  glEnable(GL_LIGHT1);
 }
 
 void drawSkySphere()
@@ -807,42 +807,8 @@ void escadas_normais()
   drawAllEscadaEsquerda(nmr_escadas - 1);
   glPopMatrix();
 }
-void draw_cameras()
-{	
-
-	glColor4f(VERDE);
-
-
-	
-  	glPushMatrix();
-  	glTranslatef(8, 30, 8);
-
-  	glEnable(GL_CULL_FACE); //Faces visiveis
-  	
-  	glutSolidCube(1);
-
-  	glCullFace(GL_BACK); //Mostrar so as da frente
-  	glDisable(GL_CULL_FACE);
-
-  	glPopMatrix();
-
-  	glPushMatrix();
-  	glTranslatef(-38, 30, 8);
-
-  	glEnable(GL_CULL_FACE); //Faces visiveis
-  	
-  	glutSolidCube(1);
-
-  	glCullFace(GL_BACK); //Mostrar so as da frente
-  	glDisable(GL_CULL_FACE);
-
-  	glPopMatrix();
-
-  	
-}
-
 void drone()
-{	
+{
 	glEnable(GL_TEXTURE_2D);
   glColor4f(VERDE);
   glBindTexture(GL_TEXTURE_2D, texture[4]);
@@ -858,16 +824,35 @@ void drone()
   glPopMatrix();
   glDisable(GL_TEXTURE_2D);
 }
+GLUquadricObj * y =  gluNewQuadric();
+
+void draw_corrimao(){
+  gluQuadricNormals(y, GLU_SMOOTH);
+  gluQuadricTexture(y, GL_TRUE);
+
+  glPushMatrix();
+
+    //glColor4f(BLACK);
+glEnable(GL_COLOR_MATERIAL);
+  //  gluCylinder(y, 1, 10,100 , 320, 320);
+      glDisable(GL_COLOR_MATERIAL);
+  glPopMatrix();
+
+
+
+}
 
 void drawScene()
 {
   //glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, materialColorObjetos);
 
+
+
   escadas_normais();
   desenhaParedes();
   draw_rain();
-  draw_cameras();
   drone();
+  draw_corrimao();
 }
 
 void display(void)
@@ -921,7 +906,7 @@ void display(void)
   gluPerspective(90, (float)wScreen / hScreen, 0.1, 100.0);
   glMatrixMode(GL_MODELVIEW);
   glLoadIdentity();
-  gluLookAt(8, 30, 8, -20, 0, -20, 0, 1, 0);
+  gluLookAt(8, 30, 10, -20, 0, -20, 0, 1, 0);
   // ESQUECER PoR AGORA
   //desenhar objetos
 
@@ -938,7 +923,7 @@ void display(void)
   gluPerspective(90, (float)wScreen / hScreen, 0.1, 100.0);
   glMatrixMode(GL_MODELVIEW);
   glLoadIdentity();
-  gluLookAt(-38, 30, 8, 0, 0, -20, 0, 1, 0);
+  gluLookAt(-38, 30, 10, 0, 0, -20, 0, 1, 0);
   // ESQUECER PoR AGORA
   //desenhar objetos
 
@@ -1069,7 +1054,7 @@ void teclasNotAscii(int key, int x, int y)
 {
 
   if (key == GLUT_KEY_UP)
-  {	
+  {
   	if(obsPini[0]<8 && obsPini[0]>-36){
     	obsPini[0] = obsPini[0] + incVisao * cos(aVisao);
     } else{
@@ -1082,7 +1067,7 @@ void teclasNotAscii(int key, int x, int y)
     }
   }
   if (key == GLUT_KEY_DOWN)
-  {	
+  {
   	if(obsPini[0]<8 && obsPini[0]>-36){
     	obsPini[0] = obsPini[0] - incVisao * cos(aVisao);
     } else{
