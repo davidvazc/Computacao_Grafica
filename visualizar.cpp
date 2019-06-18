@@ -78,14 +78,14 @@ GLfloat materialColorObjetos[] = {1.0f, 1.0f, 1.0f, 1.0f};
 
 //------------------------------------------------------------ Foco do drone
 GLfloat tama = 10;
-GLfloat     Pos2[]= {-tama, obsPini[0], obsPini[1], obsPini[2] };
-GLfloat Foco2_cor[]		= { AMARELO, 1};	//=== Cor da luz 2
-GLfloat Foco_ak			= 1.0;
-GLfloat Foco_al			= 0.05f;
-GLfloat Foco_aq			= 0.0f;
-GLfloat		anguloFoco= 20.0f;
+GLfloat Pos2[] = {-tama, obsPini[0], obsPini[1], obsPini[2]};
+GLfloat Foco2_cor[] = {AMARELO, 1}; //=== Cor da luz 2
+GLfloat Foco_ak = 1.0;
+GLfloat Foco_al = 0.05f;
+GLfloat Foco_aq = 0.0f;
+GLfloat anguloFoco = 20.0f;
 
-GLfloat Foco_Expon		= 2.0;		// Foco, SPOT_Exponent
+GLfloat Foco_Expon = 2.0; // Foco, SPOT_Exponent
 
 void initLights(void)
 {
@@ -98,7 +98,7 @@ void initLights(void)
   GLfloat localPos[4] = {-15, 30.0, 0, 1.0}; //posica luz
   GLfloat localAttCon = 1.0;
   GLfloat localAttLin = 0.05;
-  GLfloat Foco_direccao[]	= { 0, 0, -1};	//=== X
+  GLfloat Foco_direccao[] = {0, 0, -1}; //=== X
   GLfloat localAttQua = 0.0;
 
   glLightfv(GL_LIGHT0, GL_POSITION, localPos);
@@ -108,16 +108,15 @@ void initLights(void)
   glLightf(GL_LIGHT0, GL_LINEAR_ATTENUATION, localAttLin);
   glLightf(GL_LIGHT0, GL_QUADRATIC_ATTENUATION, localAttQua);
 
-
   //=================================================================Foco drone
-    glLightfv(GL_LIGHT1,GL_POSITION,				Pos2);
-    glLightfv(GL_LIGHT1,GL_DIFFUSE,					Foco2_cor);
-    glLightf(GL_LIGHT1,GL_CONSTANT_ATTENUATION,	Foco_ak);
-    glLightf(GL_LIGHT1,GL_LINEAR_ATTENUATION,		Foco_al);
-    glLightf(GL_LIGHT1,GL_QUADRATIC_ATTENUATION,	Foco_aq);
-    glLightf(GL_LIGHT1,GL_SPOT_CUTOFF,				anguloFoco);
-    glLightfv(GL_LIGHT1,GL_SPOT_DIRECTION,			Foco_direccao);
-    glLightf(GL_LIGHT1,GL_SPOT_EXPONENT,			Foco_Expon);
+  glLightfv(GL_LIGHT1, GL_POSITION, Pos2);
+  glLightfv(GL_LIGHT1, GL_DIFFUSE, Foco2_cor);
+  glLightf(GL_LIGHT1, GL_CONSTANT_ATTENUATION, Foco_ak);
+  glLightf(GL_LIGHT1, GL_LINEAR_ATTENUATION, Foco_al);
+  glLightf(GL_LIGHT1, GL_QUADRATIC_ATTENUATION, Foco_aq);
+  glLightf(GL_LIGHT1, GL_SPOT_CUTOFF, anguloFoco);
+  glLightfv(GL_LIGHT1, GL_SPOT_DIRECTION, Foco_direccao);
+  glLightf(GL_LIGHT1, GL_SPOT_EXPONENT, Foco_Expon);
 }
 
 GLfloat tam = 2.0;
@@ -182,31 +181,10 @@ static GLfloat normais[] = {
 };
 //------------------------------------------------------------ Cores
 static GLfloat cores[] = {
-    0.000000, 1.000000, 0.000000, 0.000000, 1.000000, 0.000000, 0.000000, 1.000000
-    , 0.000000, 0.000000, 1.000000, 0.000000, 0.000000, 0.000000, 1.000000, 0.000000
-    , 0.000000, 1.000000, 0.000000, 0.000000, 1.000000, 0.000000, 0.000000, 1.000000
-    , 1.000000, 0.000000, 0.000000, 1.000000, 0.000000, 0.000000, 1.000000, 0.000000
-    , 0.000000, 1.000000, 0.000000, 0.000000, 0.000000, 1.000000, 0.000000, 0.000000
-    , 1.000000, 0.000000, 0.000000, 1.000000, 0.000000, 0.000000, 1.000000, 0.000000
-    , 0.000000, 0.000000, 1.000000, 0.000000, 0.000000, 1.000000, 0.000000, 0.000000
-    , 1.000000, 0.000000, 0.000000, 1.000000, 1.000000, 0.000000, 0.000000, 1.000000
-    , 0.000000, 0.000000, 1.000000, 0.000000, 0.000000, 1.000000, 0.000000, 0.000000
-    , 0.000000, 1.000000, 0.000000, 0.000000, 1.000000, 0.000000, 0.000000, 1.000000
-    , 0.000000, 0.000000, 1.000000, 0.000000, 0.000000, 0.000000, 1.000000, 0.000000
-    , 0.000000, 1.000000, 0.000000, 0.000000, 1.000000, 0.000000, 0.000000, 1.000000
-    , 1.000000, 0.000000, 0.000000, 1.000000, 0.000000, 0.000000, 1.000000, 0.000000
-    , 0.000000, 1.000000, 0.000000, 0.000000, 0.000000, 1.000000, 0.000000, 0.000000
-    , 1.000000, 0.000000, 0.000000, 1.000000, 0.000000, 0.000000, 1.000000, 0.000000
-    , 0.000000, 0.000000, 1.000000, 0.000000, 0.000000, 1.000000, 0.000000, 0.000000
-    , 1.000000, 0.000000, 0.000000, 1.000000, 1.000000, 0.000000, 0.000000, 1.000000
-    , 0.000000, 0.000000, 1.000000, 0.000000, 0.000000, 1.000000, 0.000000, 0.000000
-    , 0.000000, 1.000000, 0.000000, 0.000000, 1.000000, 0.000000, 0.000000, 1.000000, 0.000000, 0.000000, 1.000000, 0.000000};
+    0.000000, 1.000000, 0.000000, 0.000000, 1.000000, 0.000000, 0.000000, 1.000000, 0.000000, 0.000000, 1.000000, 0.000000, 0.000000, 0.000000, 1.000000, 0.000000, 0.000000, 1.000000, 0.000000, 0.000000, 1.000000, 0.000000, 0.000000, 1.000000, 1.000000, 0.000000, 0.000000, 1.000000, 0.000000, 0.000000, 1.000000, 0.000000, 0.000000, 1.000000, 0.000000, 0.000000, 0.000000, 1.000000, 0.000000, 0.000000, 1.000000, 0.000000, 0.000000, 1.000000, 0.000000, 0.000000, 1.000000, 0.000000, 0.000000, 0.000000, 1.000000, 0.000000, 0.000000, 1.000000, 0.000000, 0.000000, 1.000000, 0.000000, 0.000000, 1.000000, 1.000000, 0.000000, 0.000000, 1.000000, 0.000000, 0.000000, 1.000000, 0.000000, 0.000000, 1.000000, 0.000000, 0.000000, 0.000000, 1.000000, 0.000000, 0.000000, 1.000000, 0.000000, 0.000000, 1.000000, 0.000000, 0.000000, 1.000000, 0.000000, 0.000000, 0.000000, 1.000000, 0.000000, 0.000000, 1.000000, 0.000000, 0.000000, 1.000000, 0.000000, 0.000000, 1.000000, 1.000000, 0.000000, 0.000000, 1.000000, 0.000000, 0.000000, 1.000000, 0.000000, 0.000000, 1.000000, 0.000000, 0.000000, 0.000000, 1.000000, 0.000000, 0.000000, 1.000000, 0.000000, 0.000000, 1.000000, 0.000000, 0.000000, 1.000000, 0.000000, 0.000000, 0.000000, 1.000000, 0.000000, 0.000000, 1.000000, 0.000000, 0.000000, 1.000000, 0.000000, 0.000000, 1.000000, 1.000000, 0.000000, 0.000000, 1.000000, 0.000000, 0.000000, 1.000000, 0.000000, 0.000000, 1.000000, 0.000000, 0.000000, 0.000000, 1.000000, 0.000000, 0.000000, 1.000000, 0.000000, 0.000000, 1.000000, 0.000000, 0.000000, 1.000000, 0.000000};
 
 static GLfloat arrayTexture[] = {
-    0, 0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 1, 1, 0, 1, 0, 0, 1
-    , 0, 1, 1, 0, 1, 0, 0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 1, 1
-    , 0, 1, 0, 0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 1, 1, 0, 1, 0
-    , 0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 1, 1, 0, 1};
+    0, 0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 1, 1, 0, 1};
 void initTexturas()
 {
   //----------------------------------------- SKY
@@ -279,7 +257,6 @@ void initTexturas()
                imag.GetNumCols(),
                imag.GetNumRows(), 0, GL_RGB, GL_UNSIGNED_BYTE,
                imag.ImageData());
-
 }
 
 void init_particles(int i)
@@ -353,22 +330,8 @@ void inicializa(void)
   glEnable(GL_DEPTH_TEST); //Profundidade
   glShadeModel(GL_SMOOTH); //Interpolacao de cores
 
-  //  glColorMaterial ( GL_FRONT_AND_BACK, GL_EMISSION ) ;
-  // glEnable ( GL_COLOR_MATERIAL ) ;
-  //glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
-
   initTexturas();
   glEnable(GL_TEXTURE_2D);
-  //glEnable(GL_CULL_FACE);		//Faces visiveis
-  //glCullFace(GL_BACK);		//Mostrar so as da frente
-  /*
-	glVertexPointer(3, GL_FLOAT, 0, vertices); //Vertex arrays
-	glEnableClientState(GL_VERTEX_ARRAY);
-	glNormalPointer(GL_FLOAT, 0, normais);
-    glEnableClientState(GL_NORMAL_ARRAY);
-	glColorPointer(3, GL_FLOAT, 0, cores);
-    glEnableClientState(GL_COLOR_ARRAY);
-    */
 
   initLights();
 
@@ -379,7 +342,7 @@ void inicializa(void)
 
   glEnable(GL_LIGHTING);
   glEnable(GL_LIGHT0);
-  //glEnable(GL_LIGHT1);
+  
 }
 
 void drawSkySphere()
@@ -594,7 +557,6 @@ void drawChao()
 
   //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Chao y=0
   glEnable(GL_TEXTURE_2D);
-  glColor4f(VERDE);
   glBindTexture(GL_TEXTURE_2D, texture[1]);
   glPushMatrix();
   glBegin(GL_QUADS);
@@ -640,7 +602,7 @@ void drawChao()
 
 void drawEscadaEsquerda()
 {
-  glColor4f(VERMELHO);
+
   glTranslatef(-(2 * translateBigEscada + translateEscada), 0, -translateEscada);
   glScalef(scaleEscadasNormais, 1, scaleEscadasNormais);
   glutCube(sizeEscadasNormais);
@@ -653,21 +615,18 @@ void drawEscadaEsquerdaMini()
 }
 void drawEscadaTraseiraEsquerda()
 {
-  glColor4f(VERMELHO);
   glTranslatef(-(2 * translateBigEscada + translateEscada), 0, -translateEscada - 6);
   glScalef(scaleEscadasNormais, 1, scaleEscadasNormais);
   glutCube(sizeEscadasNormais);
 }
 void drawEscadaTraseira()
 {
-  //glColor4f(AZUL);
   glTranslatef(translateEscada, 0, -translateEscada - 6);
   glScalef(scaleEscadasNormais, 1, scaleEscadasNormais);
   glutCube(sizeEscadasNormais);
 }
 void drawEscada()
 {
-  //glColor4f(AZUL);
   glTranslatef(translateEscada, 0, -translateEscada);
   glScalef(scaleEscadasNormais, 1, scaleEscadasNormais);
   glutCube(sizeEscadasNormais);
@@ -680,7 +639,6 @@ void drawEscadaMini()
 }
 void drawBigEscada()
 {
-  glColor4f(AMARELO);
   glTranslatef(-translateBigEscada, 1, -9);
   glScalef(scaleEscadasBig, 1, 6);
 
@@ -696,7 +654,6 @@ void drawAllBigEscada(int x)
   {
     glTranslatef(0, 3, -3);
     glPushMatrix();
-    //?? escala, rotacao, translacao ??7
     drawBigEscada();
 
     glPopMatrix();
@@ -709,7 +666,6 @@ void desenhaParedes()
   //DEI
   glTranslatef(10, 16, -18);
   glScalef(1, 35, 54);
-  //glutCube(sizeEscadasNormais);
   drawParedeDei(sizeEscadasNormais, GL_QUADS);
   glPopMatrix();
 
@@ -717,7 +673,6 @@ void desenhaParedes()
   glPushMatrix();
   glTranslatef(-40, 16, -18);
   glScalef(1, 35, 54);
-  //glutCube(sizeEscadasNormais);
   drawParedeEletro(sizeEscadasNormais, GL_QUADS);
   glPopMatrix();
 }
@@ -741,11 +696,9 @@ void drawAllEscada(int x)
     {
       glTranslatef(0, 1, -1);
       glPushMatrix();
-      //?? escala, rotacao, translacao ??7
       drawEscadaMini();
       glPopMatrix();
       glPushMatrix();
-      //?? escala, rotacao, translacao ??7
       drawEscadaTraseira();
       glPopMatrix();
     }
@@ -753,7 +706,6 @@ void drawAllEscada(int x)
     {
       glTranslatef(0, 1, -1);
       glPushMatrix();
-      //?? escala, rotacao, translacao ??7
       drawEscada();
       glPopMatrix();
     }
@@ -772,12 +724,12 @@ void drawAllEscadaEsquerda(int x)
     {
       glTranslatef(0, 1, -1);
       glPushMatrix();
-      //?? escala, rotacao, translacao ??7
+      
       drawEscadaEsquerdaMini();
       glPopMatrix();
 
       glPushMatrix();
-      //?? escala, rotacao, translacao ??7
+      
       drawEscadaTraseiraEsquerda();
       glPopMatrix();
     }
@@ -785,7 +737,6 @@ void drawAllEscadaEsquerda(int x)
     {
       glTranslatef(0, 1, -1);
       glPushMatrix();
-      //?? escala, rotacao, translacao ??7
       drawEscadaEsquerda();
       glPopMatrix();
     }
@@ -808,38 +759,36 @@ void escadas_normais()
   glPopMatrix();
 }
 void draw_cameras()
-{	
-  	glPushMatrix();
-  	glTranslatef(8, 30, 8);
+{
+  glPushMatrix();
+  glTranslatef(8, 30, 8);
 
-  	glEnable(GL_CULL_FACE); //Faces visiveis
-  	
-  	glutSolidCube(1);
+  glEnable(GL_CULL_FACE); //Faces visiveis
 
-  	glCullFace(GL_BACK); //Mostrar so as da frente
-  	glDisable(GL_CULL_FACE);
+  glutSolidCube(1);
 
-  	glPopMatrix();
+  glCullFace(GL_BACK); //Mostrar so as da frente
+  glDisable(GL_CULL_FACE);
 
-  	glPushMatrix();
-  	glTranslatef(-38, 30, 8);
+  glPopMatrix();
 
-  	glEnable(GL_CULL_FACE); //Faces visiveis
-  	
-  	glutSolidCube(1);
+  glPushMatrix();
+  glTranslatef(-38, 30, 8);
 
-  	glCullFace(GL_BACK); //Mostrar so as da frente
-  	glDisable(GL_CULL_FACE);
+  glEnable(GL_CULL_FACE); //Faces visiveis
 
-  	glPopMatrix();
+  glutSolidCube(1);
 
-  	
+  glCullFace(GL_BACK); //Mostrar so as da frente
+  glDisable(GL_CULL_FACE);
+
+  glPopMatrix();
 }
 
 void drone()
-{	
-	glEnable(GL_TEXTURE_2D);
- 
+{
+  glEnable(GL_TEXTURE_2D);
+
   glBindTexture(GL_TEXTURE_2D, texture[4]);
   glPushMatrix();
   glTranslatef(obsPini[0], obsPini[1], obsPini[2]);
@@ -856,7 +805,6 @@ void drone()
 
 void drawScene()
 {
-  //glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, materialColorObjetos);
 
   escadas_normais();
   desenhaParedes();
@@ -877,55 +825,41 @@ void display(void)
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
   //================================================================= viewport 1
-  glViewport(0, 0, 1600, 600); // ESQUECER PoR AGORA
+  glViewport(0, 0, 1600, 600); 
   glMatrixMode(GL_PROJECTION);
   glLoadIdentity();
   gluPerspective(angPersp, (float)wScreen / hScreen, 0.1, 100.0);
   glMatrixMode(GL_MODELVIEW);
   glLoadIdentity();
   gluLookAt(obsPini[0], obsPini[1], obsPini[2], obsPfin[0], obsPfin[1], obsPfin[2], 0, 1, 0);
-  // ESQUECER PoR AGORA
-  //desenhar objetos
-  //drawChao();
-  //drawEixos();
   glDisable(GL_DEPTH_TEST);
   drawSkySphere();
   glEnable(GL_DEPTH_TEST);
   drawScene();
 
-  //================================================================= viewport 3
+  //================================================================= cam 1
 
-  glViewport(0, 600, 800, 600); // ESQUECER PoR AGORA
+  glViewport(0, 600, 800, 600); 
   glMatrixMode(GL_PROJECTION);
   glLoadIdentity();
   gluPerspective(90, (float)wScreen / hScreen, 0.1, 100.0);
   glMatrixMode(GL_MODELVIEW);
   glLoadIdentity();
   gluLookAt(8, 30, 8, -20, 0, -20, 0, 1, 0);
-  // ESQUECER PoR AGORA
-  //desenhar objetos
-
-  //drawEixos();
   drawScene();
 
   //================================================================= cam 2
 
   drawSkySphere();
 
-  glViewport(800, 600, 800, 600); // ESQUECER PoR AGORA
+  glViewport(800, 600, 800, 600); 
   glMatrixMode(GL_PROJECTION);
   glLoadIdentity();
   gluPerspective(90, (float)wScreen / hScreen, 0.1, 100.0);
   glMatrixMode(GL_MODELVIEW);
   glLoadIdentity();
   gluLookAt(-38, 30, 8, 0, 0, -20, 0, 1, 0);
-  // ESQUECER PoR AGORA
-  //desenhar objetos
-
-  //drawEixos();
-
   drawScene();
-
   drawSkySphere();
 
   //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Actualizacao
@@ -983,24 +917,25 @@ void keyboard(unsigned char key, int x, int y)
   case 'f':
   case 'F':
     frenteVisivel = !frenteVisivel;
-    //glutPostVERMELHOisplay();
     break;
 
   case 'S':
   case 's':
     //baixo
-  	if(obsPini[1]>0){
-    	obsPini[1]--;
-    	obsPfin[1]--;
+    if (obsPini[1] > 0)
+    {
+      obsPini[1]--;
+      obsPfin[1]--;
     }
     break;
 
   case 'W':
   case 'w':
     //cima
-  	if(obsPini[1]<35){
-    	obsPini[1]++;
-    	obsPfin[1]++;
+    if (obsPini[1] < 35)
+    {
+      obsPini[1]++;
+      obsPfin[1]++;
     }
     break;
 
@@ -1022,17 +957,19 @@ void keyboard(unsigned char key, int x, int y)
   case 'x':
   case 'X':
     //direita
-  	if(obsPini[0]<8){
-    	obsPini[0]++;
-    	obsPini[0]++;
+    if (obsPini[0] < 8)
+    {
+      obsPini[0]++;
+      obsPini[0]++;
     }
     break;
   case 'z':
   case 'Z':
     //esquerda
-  	if(obsPini[0]>-36){
-    	obsPini[0]--;
-    	obsPini[0]--;
+    if (obsPini[0] > -36)
+    {
+      obsPini[0]--;
+      obsPini[0]--;
     }
     break;
 
@@ -1049,29 +986,41 @@ void teclasNotAscii(int key, int x, int y)
 {
 
   if (key == GLUT_KEY_UP)
-  {	
-  	if(obsPini[0]<8 && obsPini[0]>-36){
-    	obsPini[0] = obsPini[0] + incVisao * cos(aVisao);
-    } else{
-    	obsPini[0]= obsPini[0] - incVisao * cos(aVisao);
+  {
+    if (obsPini[0] < 8 && obsPini[0] > -36)
+    {
+      obsPini[0] = obsPini[0] + incVisao * cos(aVisao);
     }
-    if(obsPini[2]>-40 && obsPini[2]<8){
-    	obsPini[2] = obsPini[2] - incVisao * sin(aVisao);
-    } else{
-    	obsPini[2] = obsPini[2] + incVisao * sin(aVisao);
+    else
+    {
+      obsPini[0] = obsPini[0] - incVisao * cos(aVisao);
+    }
+    if (obsPini[2] > -40 && obsPini[2] < 8)
+    {
+      obsPini[2] = obsPini[2] - incVisao * sin(aVisao);
+    }
+    else
+    {
+      obsPini[2] = obsPini[2] + incVisao * sin(aVisao);
     }
   }
   if (key == GLUT_KEY_DOWN)
-  {	
-  	if(obsPini[0]<8 && obsPini[0]>-36){
-    	obsPini[0] = obsPini[0] - incVisao * cos(aVisao);
-    } else{
-    	obsPini[0]= obsPini[0] + incVisao * cos(aVisao);
+  {
+    if (obsPini[0] < 8 && obsPini[0] > -36)
+    {
+      obsPini[0] = obsPini[0] - incVisao * cos(aVisao);
     }
-    if(obsPini[2]>-40 && obsPini[2]<8){
-    	obsPini[2] = obsPini[2] + incVisao * sin(aVisao);
-    } else{
-    	obsPini[2] = obsPini[2] - incVisao * sin(aVisao);
+    else
+    {
+      obsPini[0] = obsPini[0] + incVisao * cos(aVisao);
+    }
+    if (obsPini[2] > -40 && obsPini[2] < 8)
+    {
+      obsPini[2] = obsPini[2] + incVisao * sin(aVisao);
+    }
+    else
+    {
+      obsPini[2] = obsPini[2] - incVisao * sin(aVisao);
     }
   }
   if (key == GLUT_KEY_LEFT)
