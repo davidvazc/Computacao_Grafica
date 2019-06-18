@@ -78,7 +78,7 @@ GLfloat materialColorObjetos[] = {1.0f, 1.0f, 1.0f, 1.0f};
 
 //------------------------------------------------------------ Foco do drone
 GLfloat tama = 10;
-GLfloat     Pos2[]= {-tama, 1.0f, 0, 1.0f };
+GLfloat     Pos2[]= {-tama, obsPini[0], obsPini[1], obsPini[2] };
 GLfloat Foco2_cor[]		= { AMARELO, 1};	//=== Cor da luz 2
 GLfloat Foco_ak			= 1.0;
 GLfloat Foco_al			= 0.05f;
