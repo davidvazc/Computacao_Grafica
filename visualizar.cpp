@@ -379,7 +379,7 @@ void inicializa(void)
 
   glEnable(GL_LIGHTING);
   glEnable(GL_LIGHT0);
-  glEnable(GL_LIGHT1);
+  //glEnable(GL_LIGHT1);
 }
 
 void drawSkySphere()
@@ -807,6 +807,40 @@ void escadas_normais()
   drawAllEscadaEsquerda(nmr_escadas - 1);
   glPopMatrix();
 }
+void draw_cameras()
+{	
+
+	glColor4f(VERDE);
+
+
+	
+  	glPushMatrix();
+  	glTranslatef(8, 30, 8);
+
+  	glEnable(GL_CULL_FACE); //Faces visiveis
+  	
+  	glutSolidCube(1);
+
+  	glCullFace(GL_BACK); //Mostrar so as da frente
+  	glDisable(GL_CULL_FACE);
+
+  	glPopMatrix();
+
+  	glPushMatrix();
+  	glTranslatef(-38, 30, 8);
+
+  	glEnable(GL_CULL_FACE); //Faces visiveis
+  	
+  	glutSolidCube(1);
+
+  	glCullFace(GL_BACK); //Mostrar so as da frente
+  	glDisable(GL_CULL_FACE);
+
+  	glPopMatrix();
+
+  	
+}
+
 void drone()
 {	
 	glEnable(GL_TEXTURE_2D);
@@ -832,6 +866,7 @@ void drawScene()
   escadas_normais();
   desenhaParedes();
   draw_rain();
+  draw_cameras();
   drone();
 }
 
@@ -886,7 +921,7 @@ void display(void)
   gluPerspective(90, (float)wScreen / hScreen, 0.1, 100.0);
   glMatrixMode(GL_MODELVIEW);
   glLoadIdentity();
-  gluLookAt(8, 30, 10, -20, 0, -20, 0, 1, 0);
+  gluLookAt(8, 30, 8, -20, 0, -20, 0, 1, 0);
   // ESQUECER PoR AGORA
   //desenhar objetos
 
@@ -903,7 +938,7 @@ void display(void)
   gluPerspective(90, (float)wScreen / hScreen, 0.1, 100.0);
   glMatrixMode(GL_MODELVIEW);
   glLoadIdentity();
-  gluLookAt(-38, 30, 10, 0, 0, -20, 0, 1, 0);
+  gluLookAt(-38, 30, 8, 0, 0, -20, 0, 1, 0);
   // ESQUECER PoR AGORA
   //desenhar objetos
 
