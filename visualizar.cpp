@@ -71,21 +71,34 @@ RgbImage imag;
 //luzes
 GLint noite = 1;
 GLfloat luzGlobalCor[4] = {1.0, 1.0, 1.0, 1.0};
-
+GLint foco = 1;
 GLint ligaLuz = 1;
 
 GLfloat materialColorObjetos[] = {1.0f, 1.0f, 1.0f, 1.0f};
+
+//------------------------------------------------------------ Foco do drone
+GLfloat tama = 10;
+GLfloat     Pos2[]= {-tama, 1.0f, 0, 1.0f };
+GLfloat Foco2_cor[]		= { AMARELO, 1};	//=== Cor da luz 2
+GLfloat Foco_ak			= 1.0;
+GLfloat Foco_al			= 0.05f;
+GLfloat Foco_aq			= 0.0f;
+GLfloat		anguloFoco= 20.0f;
+
+GLfloat Foco_Expon		= 2.0;		// Foco, SPOT_Exponent
+
 void initLights(void)
 {
-  //ÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖ Ambiente
+  //Ambiente
   glLightModelfv(GL_LIGHT_MODEL_AMBIENT, luzGlobalCor);
 
-  //ÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖ Tecto
+  //Tecto
   GLfloat localCor[4] = {0.6, 0.6, 0, 1.0};
   GLfloat localCorDif[4] = {1, 1, 1, 1.0};
   GLfloat localPos[4] = {-15, 30.0, 0, 1.0}; //posica luz
   GLfloat localAttCon = 1.0;
   GLfloat localAttLin = 0.05;
+  GLfloat Foco_direccao[]	= { 0, 0, -1};	//=== X
   GLfloat localAttQua = 0.0;
 
   glLightfv(GL_LIGHT0, GL_POSITION, localPos);
@@ -94,21 +107,32 @@ void initLights(void)
   glLightf(GL_LIGHT0, GL_CONSTANT_ATTENUATION, localAttCon);
   glLightf(GL_LIGHT0, GL_LINEAR_ATTENUATION, localAttLin);
   glLightf(GL_LIGHT0, GL_QUADRATIC_ATTENUATION, localAttQua);
+
+
+  //=================================================================Foco drone
+    glLightfv(GL_LIGHT1,GL_POSITION,				Pos2);
+    glLightfv(GL_LIGHT1,GL_DIFFUSE,					Foco2_cor);
+    glLightf(GL_LIGHT1,GL_CONSTANT_ATTENUATION,	Foco_ak);
+    glLightf(GL_LIGHT1,GL_LINEAR_ATTENUATION,		Foco_al);
+    glLightf(GL_LIGHT1,GL_QUADRATIC_ATTENUATION,	Foco_aq);
+    glLightf(GL_LIGHT1,GL_SPOT_CUTOFF,				anguloFoco);
+    glLightfv(GL_LIGHT1,GL_SPOT_DIRECTION,			Foco_direccao);
+    glLightf(GL_LIGHT1,GL_SPOT_EXPONENT,			Foco_Expon);
 }
 
 GLfloat tam = 2.0;
 static GLfloat vertices[] = {
-    // x=tam (Esquerda)
+    //x=tam (Esquerda)
     -tam, -tam, tam,  // 0
     -tam, tam, tam,   // 1
     -tam, tam, -tam,  // 2
     -tam, -tam, -tam, // 3
-                      // Direita
+                      //Direita
     tam, -tam, tam,   // 4
     tam, tam, tam,    // 5
     tam, tam, -tam,   // 6
     tam, -tam, -tam,  // 7
-                      // (Cima
+                      //Cima
     -tam, tam, tam,   // 8
     -tam, tam, -tam,  // 9
     tam, tam, -tam,   // 10
@@ -116,7 +140,7 @@ static GLfloat vertices[] = {
 };
 
 static GLfloat normais[] = {
-    // x=tam (Esquerda)
+    //x=tam (Esquerda)
     -1.0,
     0.0,
     0.0,
@@ -129,7 +153,7 @@ static GLfloat normais[] = {
     -1.0,
     0.0,
     0.0,
-    // x=tam (Direita)
+    //x=tam (Direita)
     1.0,
     0.0,
     0.0,
@@ -142,7 +166,7 @@ static GLfloat normais[] = {
     1.0,
     0.0,
     0.0,
-    // y=tam (Cima)
+    //y=tam (Cima)
     0.0,
     1.0,
     0.0,
@@ -158,10 +182,31 @@ static GLfloat normais[] = {
 };
 //------------------------------------------------------------ Cores
 static GLfloat cores[] = {
-    0.000000, 1.000000, 0.000000, 0.000000, 1.000000, 0.000000, 0.000000, 1.000000, 0.000000, 0.000000, 1.000000, 0.000000, 0.000000, 0.000000, 1.000000, 0.000000, 0.000000, 1.000000, 0.000000, 0.000000, 1.000000, 0.000000, 0.000000, 1.000000, 1.000000, 0.000000, 0.000000, 1.000000, 0.000000, 0.000000, 1.000000, 0.000000, 0.000000, 1.000000, 0.000000, 0.000000, 0.000000, 1.000000, 0.000000, 0.000000, 1.000000, 0.000000, 0.000000, 1.000000, 0.000000, 0.000000, 1.000000, 0.000000, 0.000000, 0.000000, 1.000000, 0.000000, 0.000000, 1.000000, 0.000000, 0.000000, 1.000000, 0.000000, 0.000000, 1.000000, 1.000000, 0.000000, 0.000000, 1.000000, 0.000000, 0.000000, 1.000000, 0.000000, 0.000000, 1.000000, 0.000000, 0.000000, 0.000000, 1.000000, 0.000000, 0.000000, 1.000000, 0.000000, 0.000000, 1.000000, 0.000000, 0.000000, 1.000000, 0.000000, 0.000000, 0.000000, 1.000000, 0.000000, 0.000000, 1.000000, 0.000000, 0.000000, 1.000000, 0.000000, 0.000000, 1.000000, 1.000000, 0.000000, 0.000000, 1.000000, 0.000000, 0.000000, 1.000000, 0.000000, 0.000000, 1.000000, 0.000000, 0.000000, 0.000000, 1.000000, 0.000000, 0.000000, 1.000000, 0.000000, 0.000000, 1.000000, 0.000000, 0.000000, 1.000000, 0.000000, 0.000000, 0.000000, 1.000000, 0.000000, 0.000000, 1.000000, 0.000000, 0.000000, 1.000000, 0.000000, 0.000000, 1.000000, 1.000000, 0.000000, 0.000000, 1.000000, 0.000000, 0.000000, 1.000000, 0.000000, 0.000000, 1.000000, 0.000000, 0.000000, 0.000000, 1.000000, 0.000000, 0.000000, 1.000000, 0.000000, 0.000000, 1.000000, 0.000000, 0.000000, 1.000000, 0.000000};
+    0.000000, 1.000000, 0.000000, 0.000000, 1.000000, 0.000000, 0.000000, 1.000000
+    , 0.000000, 0.000000, 1.000000, 0.000000, 0.000000, 0.000000, 1.000000, 0.000000
+    , 0.000000, 1.000000, 0.000000, 0.000000, 1.000000, 0.000000, 0.000000, 1.000000
+    , 1.000000, 0.000000, 0.000000, 1.000000, 0.000000, 0.000000, 1.000000, 0.000000
+    , 0.000000, 1.000000, 0.000000, 0.000000, 0.000000, 1.000000, 0.000000, 0.000000
+    , 1.000000, 0.000000, 0.000000, 1.000000, 0.000000, 0.000000, 1.000000, 0.000000
+    , 0.000000, 0.000000, 1.000000, 0.000000, 0.000000, 1.000000, 0.000000, 0.000000
+    , 1.000000, 0.000000, 0.000000, 1.000000, 1.000000, 0.000000, 0.000000, 1.000000
+    , 0.000000, 0.000000, 1.000000, 0.000000, 0.000000, 1.000000, 0.000000, 0.000000
+    , 0.000000, 1.000000, 0.000000, 0.000000, 1.000000, 0.000000, 0.000000, 1.000000
+    , 0.000000, 0.000000, 1.000000, 0.000000, 0.000000, 0.000000, 1.000000, 0.000000
+    , 0.000000, 1.000000, 0.000000, 0.000000, 1.000000, 0.000000, 0.000000, 1.000000
+    , 1.000000, 0.000000, 0.000000, 1.000000, 0.000000, 0.000000, 1.000000, 0.000000
+    , 0.000000, 1.000000, 0.000000, 0.000000, 0.000000, 1.000000, 0.000000, 0.000000
+    , 1.000000, 0.000000, 0.000000, 1.000000, 0.000000, 0.000000, 1.000000, 0.000000
+    , 0.000000, 0.000000, 1.000000, 0.000000, 0.000000, 1.000000, 0.000000, 0.000000
+    , 1.000000, 0.000000, 0.000000, 1.000000, 1.000000, 0.000000, 0.000000, 1.000000
+    , 0.000000, 0.000000, 1.000000, 0.000000, 0.000000, 1.000000, 0.000000, 0.000000
+    , 0.000000, 1.000000, 0.000000, 0.000000, 1.000000, 0.000000, 0.000000, 1.000000, 0.000000, 0.000000, 1.000000, 0.000000};
 
 static GLfloat arrayTexture[] = {
-    0, 0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 1, 1, 0, 1};
+    0, 0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 1, 1, 0, 1, 0, 0, 1
+    , 0, 1, 1, 0, 1, 0, 0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 1, 1
+    , 0, 1, 0, 0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 1, 1, 0, 1, 0
+    , 0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 1, 1, 0, 1};
 void initTexturas()
 {
   //----------------------------------------- SKY
@@ -220,6 +265,21 @@ void initTexturas()
                imag.GetNumCols(),
                imag.GetNumRows(), 0, GL_RGB, GL_UNSIGNED_BYTE,
                imag.ImageData());
+
+  //----------------------------------------- drone
+  glGenTextures(1, &texture[4]);
+  glBindTexture(GL_TEXTURE_2D, texture[4]);
+  glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+  imag.LoadBmpFile("drone.bmp");
+  glTexImage2D(GL_TEXTURE_2D, 0, 3,
+               imag.GetNumCols(),
+               imag.GetNumRows(), 0, GL_RGB, GL_UNSIGNED_BYTE,
+               imag.ImageData());
+
 }
 
 void init_particles(int i)
@@ -289,9 +349,9 @@ void draw_rain()
 //=========================================================================== INIT
 void inicializa(void)
 {
-  glClearColor(BLACK);     //Apagar
-  glEnable(GL_DEPTH_TEST); //Profundidade
-  glShadeModel(GL_SMOOTH); //Interpolacao de cores
+  glClearColor(BLACK);     //Apagar
+  glEnable(GL_DEPTH_TEST); //Profundidade
+  glShadeModel(GL_SMOOTH); //Interpolacao de cores
 
   //  glColorMaterial ( GL_FRONT_AND_BACK, GL_EMISSION ) ;
   // glEnable ( GL_COLOR_MATERIAL ) ;
@@ -299,10 +359,10 @@ void inicializa(void)
 
   initTexturas();
   glEnable(GL_TEXTURE_2D);
-  //glEnable(GL_CULL_FACE);		//Faces visiveis
-  //glCullFace(GL_BACK);		//Mostrar so as da frente
+  //glEnable(GL_CULL_FACE);		//Faces visiveis
+  //glCullFace(GL_BACK);		//Mostrar so as da frente
   /*
-	glVertexPointer(3, GL_FLOAT, 0, vertices); //Vertex arrays
+	glVertexPointer(3, GL_FLOAT, 0, vertices); //Vertex arrays
 	glEnableClientState(GL_VERTEX_ARRAY);
 	glNormalPointer(GL_FLOAT, 0, normais);
     glEnableClientState(GL_NORMAL_ARRAY);
@@ -319,6 +379,7 @@ void inicializa(void)
 
   glEnable(GL_LIGHTING);
   glEnable(GL_LIGHT0);
+  glEnable(GL_LIGHT1);
 }
 
 void drawSkySphere()
@@ -747,16 +808,21 @@ void escadas_normais()
   glPopMatrix();
 }
 void drone()
-{
+{	
+	glEnable(GL_TEXTURE_2D);
+  glColor4f(VERDE);
+  glBindTexture(GL_TEXTURE_2D, texture[4]);
   glPushMatrix();
   glTranslatef(obsPini[0], obsPini[1], obsPini[2]);
 
-  glEnable(GL_CULL_FACE); //Faces visiveis
-  glutCube(1);
-  glCullFace(GL_BACK); //Mostrar so as da frente
+  glEnable(GL_CULL_FACE); //Faces visiveis
+  glColor4f(GRAY2);
+  glutSolidCube(1);
+  glCullFace(GL_BACK); //Mostrar so as da frente
   glDisable(GL_CULL_FACE);
 
   glPopMatrix();
+  glDisable(GL_TEXTURE_2D);
 }
 
 void drawScene()
@@ -887,6 +953,18 @@ void keyboard(unsigned char key, int x, int y)
     ligaLuz = !ligaLuz;
     glutPostRedisplay();
     break;
+  case 'q':
+  case 'Q':
+    foco = !foco;
+    if (foco)
+    {
+      glEnable(GL_LIGHT1);
+    }
+    else
+    {
+      glDisable(GL_LIGHT1);
+    }
+    break;
   case 'f':
   case 'F':
     frenteVisivel = !frenteVisivel;
@@ -1005,7 +1083,7 @@ int main(int argc, char **argv)
   glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
   glutInitWindowSize(wScreen, hScreen);
   glutInitWindowPosition(300, 100);
-  glutCreateWindow("|Cima-'w' Baixo-'s'|      |Esq-'z' Dir-'x'|      |Olhar cima/baixo-'e/d'|       |Drone-'SETAS'|       |Noite-'n'|       |Luz-'l'|");
+  glutCreateWindow("|Cima-'w' Baixo-'s'|      |Esq-'z' Dir-'x'|        |Olhar cima/baixo-'e/d'|       |Drone-'SETAS'|       |Noite-'n'|       |Luz-'l'|         |LuzDrone-'q'|");
 
   inicializa();
 
