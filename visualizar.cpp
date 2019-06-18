@@ -809,11 +809,6 @@ void escadas_normais()
 }
 void draw_cameras()
 {	
-
-	glColor4f(VERDE);
-
-
-	
   	glPushMatrix();
   	glTranslatef(8, 30, 8);
 
@@ -844,7 +839,7 @@ void draw_cameras()
 void drone()
 {	
 	glEnable(GL_TEXTURE_2D);
-  glColor4f(VERDE);
+ 
   glBindTexture(GL_TEXTURE_2D, texture[4]);
   glPushMatrix();
   glTranslatef(obsPini[0], obsPini[1], obsPini[2]);
@@ -882,7 +877,7 @@ void display(void)
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
   //================================================================= viewport 1
-  glViewport(600, 0, 1000, 500); // ESQUECER PoR AGORA
+  glViewport(0, 0, 1600, 600); // ESQUECER PoR AGORA
   glMatrixMode(GL_PROJECTION);
   glLoadIdentity();
   gluPerspective(angPersp, (float)wScreen / hScreen, 0.1, 100.0);
@@ -898,24 +893,9 @@ void display(void)
   glEnable(GL_DEPTH_TEST);
   drawScene();
 
-  // ESQUECER PoR AGORA
-  //================================================================= view port 2
-  glViewport(0, 0, 600, 400);
-  glMatrixMode(GL_PROJECTION);
-  glLoadIdentity();
-  glOrtho(-50, 50, -50, 50, -50, 50);
-  glMatrixMode(GL_MODELVIEW);
-  glLoadIdentity();
-  gluLookAt(-15, 20, 0, -15, 0, 0, 0, 0, -1);
-  // ESQUECER PoR AGORA
-
-  //drawEixos();
-  drawScene();
-
-  drawSkySphere();
   //================================================================= viewport 3
 
-  glViewport(0, 500, 800, 500); // ESQUECER PoR AGORA
+  glViewport(0, 600, 800, 600); // ESQUECER PoR AGORA
   glMatrixMode(GL_PROJECTION);
   glLoadIdentity();
   gluPerspective(90, (float)wScreen / hScreen, 0.1, 100.0);
@@ -932,7 +912,7 @@ void display(void)
 
   drawSkySphere();
 
-  glViewport(800, 500, 800, 500); // ESQUECER PoR AGORA
+  glViewport(800, 600, 800, 600); // ESQUECER PoR AGORA
   glMatrixMode(GL_PROJECTION);
   glLoadIdentity();
   gluPerspective(90, (float)wScreen / hScreen, 0.1, 100.0);
